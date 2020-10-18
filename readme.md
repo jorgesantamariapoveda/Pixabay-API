@@ -5,10 +5,9 @@ El objetivo de esta práctica es implementar una aplicación móvil Android que 
 ## Tecnologías
 
 - Kotlin
-- Retrofit library
-- ViewModel
-- LiveData
-- Room database
+- Retrofit, Gson, Glide
+- ViewModel, LiveData
+- Room Database
 - Material design
 - Android Studio
 - Postman
