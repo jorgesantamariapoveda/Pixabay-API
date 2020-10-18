@@ -9,8 +9,7 @@ El objetivo de esta práctica es implementar una aplicación móvil Android que 
 - ViewModel, LiveData
 - Room Database
 - Material design
-- Android Studio
-- Postman
+- Android Studio, Postman, RoboPOJOGenerator
 
 ## Servicio elegido
 

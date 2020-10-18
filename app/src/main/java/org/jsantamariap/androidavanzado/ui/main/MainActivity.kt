@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
 
         floatingActionButton.setOnClickListener {
-            //! Forma vista hasta ahora para llamar a una activity
+            //! Forma vista hasta ahora para llamar a una activity desde otra activity
             /*
             val intent2 = Intent(this, DetailActivity::class.java)
             startActivity(intent2)

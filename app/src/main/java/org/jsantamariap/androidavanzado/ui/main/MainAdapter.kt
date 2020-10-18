@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_list.view.*
 import org.jsantamariap.androidavanzado.R
 
 class MainAdapter(
-        private val context: Context,
-        private val listItems: ArrayList<String>) : RecyclerView.Adapter<MainAdapter.MainHolder>() {
+    private val context: Context,
+    private val cbItemClick: CallbackItemClick,
+    private val listItems: ArrayList<String>
+) : RecyclerView.Adapter<MainAdapter.MainHolder>() {
 
     //! Representa la vista de cada item
     class MainHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -29,7 +32,10 @@ class MainAdapter(
         listItems[position].let {
             //! implementar
             //! holder.view.imageViewItemList = ...
+
+            holder.view.cardViewItemList.setOnClickListener {
+                cbItemClick.onItemClick()
+            }
         }
     }
-
 }
