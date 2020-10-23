@@ -16,9 +16,11 @@ import retrofit2.Response
 class DetailActivity : AppCompatActivity() {
 
     private val viewModel: DetailViewModel by lazy {
-        val factory = CustomViewModelFactory()
+        val factory = CustomViewModelFactory(application)
         ViewModelProvider(this, factory).get(DetailViewModel::class.java)
     }
+
+    private val mApodResponse: ApodResponse? = null
 
     //! lifecycle functions
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +30,8 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.getApod(Common.API_KEY_NASA_APOD, object : ApodService.CallbackResponse<List<GhibliResponse>> {
             override fun onResponse(response: List<GhibliResponse>) {
+
+                mApodResponse = response
 
                 if (response.size > 0) {
                     textDetail.text = response[0].description
@@ -47,6 +51,10 @@ class DetailActivity : AppCompatActivity() {
             override fun onFailure(t: Throwable, response: Response<*>?) {
             }
         })
+
+        buttonDetail.setOnClickListener {
+            viewModel.insertApodToRoomDatabase(mApodResponse!!)
+        }
     }
 
 }

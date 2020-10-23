@@ -1,6 +1,9 @@
 package org.jsantamariap.androidavanzado.ui.detail
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import org.jsantamariap.androidavanzado.repository.db.ApodRoomDatabase
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
 import org.jsantamariap.androidavanzado.repository.model.GhibliResponse
 import org.jsantamariap.androidavanzado.repository.network.ApodService
@@ -10,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 //! Lógica de negocio, donde se hacen las peticiones a los servicios
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val context: Application) : ViewModel() {
 
     fun getApod(apiKey: String, cb: ApodService.CallbackResponse<List<GhibliResponse>>) {
 
@@ -45,6 +48,10 @@ class DetailViewModel : ViewModel() {
  */
 
         })
+    }
+
+    fun insertApodToRoomDatabase(apodResponse: ApodResponse) {
+        ApodRoomDatabase.getInstance(context).apodDao().insertApod(apodResponse)
     }
 
 }
