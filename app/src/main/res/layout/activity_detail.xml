@@ -37,7 +37,14 @@
             android:id="@+id/textDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TEXTO DE PRUEBA" />
+            android:text="@string/textoDePrueba" />
+
+        <Button
+            android:id="@+id/buttonDetail"
+            android:text="@string/save"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

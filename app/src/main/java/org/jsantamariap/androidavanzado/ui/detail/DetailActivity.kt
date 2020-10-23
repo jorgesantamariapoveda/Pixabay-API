@@ -3,9 +3,11 @@ package org.jsantamariap.androidavanzado.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jsantamariap.androidavanzado.R
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
+import org.jsantamariap.androidavanzado.repository.model.GhibliResponse
 import org.jsantamariap.androidavanzado.repository.network.ApodService
 import org.jsantamariap.androidavanzado.utils.Common
 import org.jsantamariap.androidavanzado.utils.CustomViewModelFactory
@@ -24,9 +26,22 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        viewModel.getApod(Common.API_KEY, object : ApodService.CallbackResponse<ApodResponse> {
-            override fun onResponse(response: ApodResponse) {
-                textDetail.text = response.explanation
+        viewModel.getApod(Common.API_KEY_NASA_APOD, object : ApodService.CallbackResponse<List<GhibliResponse>> {
+            override fun onResponse(response: List<GhibliResponse>) {
+
+                if (response.size > 0) {
+                    textDetail.text = response[0].description
+                } else {
+                    textDetail.text = "Lista vacía"
+                }
+                //textDetail.text = response.description
+
+                /*
+                Glide.with(this@DetailActivity)
+                    .load(response.url)
+                    .into(imageDetail)
+
+                 */
             }
 
             override fun onFailure(t: Throwable, response: Response<*>?) {
