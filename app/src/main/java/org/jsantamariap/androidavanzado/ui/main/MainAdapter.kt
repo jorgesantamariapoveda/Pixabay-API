@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.item_list.view.*
 import org.jsantamariap.androidavanzado.R
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse

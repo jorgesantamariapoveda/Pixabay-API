@@ -46,7 +46,6 @@ class MainFragment : Fragment(), CallbackItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         init()
         getLocalAllApod()
     }
@@ -60,8 +59,8 @@ class MainFragment : Fragment(), CallbackItemClick {
     private fun getLocalAllApod() {
         //Como se hace la petición a la base de datos no debe hacerse en el mainQueue
         // para ello lo hace el liveData que lo hace en background
-        viewModel.getLocalAllApod().observe(viewLifecycleOwner, Observer {
-            adapter = MainAdapter(activity!!.applicationContext, this, it)
+        viewModel.getLocalAllApod().observe(viewLifecycleOwner, Observer { items ->
+            adapter = MainAdapter(activity!!.applicationContext, this, items)
             recyclerViewMain.adapter = adapter
         })
     }

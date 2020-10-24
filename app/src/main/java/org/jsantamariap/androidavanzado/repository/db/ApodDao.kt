@@ -1,10 +1,7 @@
 package org.jsantamariap.androidavanzado.repository.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
 
 // Es como la API del servicio pero para las Entities
@@ -21,4 +18,10 @@ abstract class ApodDao {
     // lo del ViewModel con el objeto observer
     @Query("SELECT * FROM apod_table")
     abstract fun getAllApod(): LiveData<List<ApodResponse>>
+
+    @Query("SELECT * FROM apod_table WHERE id = :apodId")
+    abstract fun getApod(apodId: String): ApodResponse
+
+    @Delete
+    abstract fun deleteApod(apodResponse: ApodResponse)
 }

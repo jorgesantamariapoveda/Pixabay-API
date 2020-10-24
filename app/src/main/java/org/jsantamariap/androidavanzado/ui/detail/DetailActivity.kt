@@ -21,50 +21,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private var apodResponse: ApodResponse? = null
+    private var isLocalPod = true
 
     //! lifecycle functions
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         init()
         listeners()
-
-        /*
-        viewModel.getApod(
-            object : ApodService.CallbackResponse<ApodResponse> {
-                override fun onResponse(response: ApodResponse) {
-
-                    //! Revisar porque lo tengo duplicado cuando leo los
-                    //extras del intent
-                    apodResponse = response
-
-                    /*
-                    if (response.size > 0) {
-                        textDetail.text = response[0].description
-                    } else {
-                        textDetail.text = "Lista vacía"
-                    }
-                     */
-
-                    textDetail.text = response.explanation
-
-                    Glide.with(this@DetailActivity)
-                        .load(response.url)
-                        .apply(
-                            RequestOptions()
-                                .placeholder(R.drawable.ic_launcher_background)
-                        )
-                        .into(imageDetail)
-
-                }
-
-                override fun onFailure(t: Throwable, response: Response<*>?) {
-                    textDetail.text = response.toString()
-                }
-            }
-        )
-
-         */
     }
 
     private fun init() {
@@ -73,27 +36,59 @@ class DetailActivity : AppCompatActivity() {
 
         intent?.let {
             if (it.getStringExtra(Common.ORIGEN_APOD) == Common.ORIGIN_APOD_LOCAL) {
+                btnDetail.text = "DELETE"
+                isLocalPod = true
                 apodResponse = intent.extras!!.getSerializable(Common.KEY_APOD) as ApodResponse?
 
-                Glide.with(this@DetailActivity)
-                    .load(apodResponse!!.url)
-                    .apply(
-                        RequestOptions()
-                            .placeholder(R.drawable.ic_launcher_background)
-                    )
-                    .into(imageDetail)
+                apodResponse?.let { response ->
+                    setDataToView(response)
+                }
 
             } else {
-                //! Aquí hay que obtener los datos mediante petición a la NASA
-                //para la foto del día
-                print("kaka")
+                btnDetail.text = "SAVE"
+                isLocalPod = false
+                getDataFromServer()
             }
         }
     }
 
+    private fun getDataFromServer() {
+        viewModel.getServerApod(
+            object : ApodService.CallbackResponse<ApodResponse> {
+
+                override fun onResponse(response: ApodResponse) {
+                    apodResponse = response
+                    setDataToView(response)
+                }
+
+                override fun onFailure(t: Throwable, response: Response<*>?) {
+                    textDetail.text = response.toString()
+                }
+            }
+        )
+    }
+
+    private fun setDataToView(data: ApodResponse) {
+        textDetail.text = data.explanation
+
+        Glide.with(this@DetailActivity)
+            .load(data.url)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_launcher_background)
+            )
+            .into(imageDetail)
+    }
+
     private fun listeners() {
-        saveButtonDetail.setOnClickListener {
-            viewModel.insertApod(apodResponse!!)
+        btnDetail.setOnClickListener {
+
+            if (isLocalPod) {
+                viewModel.deleteApod(apodResponse!!)
+            } else {
+                viewModel.insertApod(apodResponse!!)
+            }
+
             finish()
         }
     }
