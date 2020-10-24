@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jsantamariap.androidavanzado.R
 import org.jsantamariap.androidavanzado.ui.detail.DetailActivity
+import org.jsantamariap.androidavanzado.utils.Common
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
             //! Forma vista en avanzada, queda más limpio, además de poder hacer más cosas
             Intent(this, DetailActivity::class.java).apply {
+                putExtra(Common.ORIGEN_APOD, Common.ORIGIN_APOD_SERVER)
                 startActivity(this)
                 //putExtra("KEY", "value")
             }

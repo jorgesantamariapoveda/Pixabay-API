@@ -44,7 +44,7 @@ class MainAdapter(
                 .into(holder.view.imageViewItemList)
 
             holder.view.cardViewItemList.setOnClickListener {
-                cbItemClick.onItemClick()
+                cbItemClick.onItemClick(item)
             }
         }
     }

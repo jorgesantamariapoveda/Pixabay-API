@@ -20,19 +20,23 @@ class DetailActivity : AppCompatActivity() {
         ViewModelProvider(this, factory).get(DetailViewModel::class.java)
     }
 
-    private var mApodResponse: ApodResponse? = null
+    private var apodResponse: ApodResponse? = null
 
     //! lifecycle functions
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
+        init()
+        listeners()
+
+        /*
         viewModel.getApod(
             object : ApodService.CallbackResponse<ApodResponse> {
                 override fun onResponse(response: ApodResponse) {
 
-                    mApodResponse = response
+                    //! Revisar porque lo tengo duplicado cuando leo los
+                    //extras del intent
+                    apodResponse = response
 
                     /*
                     if (response.size > 0) {
@@ -55,13 +59,42 @@ class DetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(t: Throwable, response: Response<*>?) {
+                    textDetail.text = response.toString()
                 }
             }
         )
 
-        saveButtonDetail.setOnClickListener {
-            viewModel.insertApod(mApodResponse!!)
+         */
+    }
+
+    private fun init() {
+        setContentView(R.layout.activity_detail)
+        setSupportActionBar(findViewById(R.id.toolbar))
+
+        intent?.let {
+            if (it.getStringExtra(Common.ORIGEN_APOD) == Common.ORIGIN_APOD_LOCAL) {
+                apodResponse = intent.extras!!.getSerializable(Common.KEY_APOD) as ApodResponse?
+
+                Glide.with(this@DetailActivity)
+                    .load(apodResponse!!.url)
+                    .apply(
+                        RequestOptions()
+                            .placeholder(R.drawable.ic_launcher_background)
+                    )
+                    .into(imageDetail)
+
+            } else {
+                //! Aquí hay que obtener los datos mediante petición a la NASA
+                //para la foto del día
+                print("kaka")
+            }
         }
     }
 
+    private fun listeners() {
+        saveButtonDetail.setOnClickListener {
+            viewModel.insertApod(apodResponse!!)
+            finish()
+        }
+    }
 }
