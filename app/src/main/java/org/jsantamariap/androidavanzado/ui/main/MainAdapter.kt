@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.item_list.view.*
 import org.jsantamariap.androidavanzado.R
@@ -32,12 +33,14 @@ class MainAdapter(
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        listItems[position].let {
-            //! implementar
-            //! holder.view.imageViewItemList = ...
+        listItems[position].let { item ->
 
-            Glide.with(holder.view)
-                .load(it.url)
+            Glide.with(context)
+                .load(item.url)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.ic_launcher_background)
+                )
                 .into(holder.view.imageViewItemList)
 
             holder.view.cardViewItemList.setOnClickListener {

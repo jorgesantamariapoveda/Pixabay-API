@@ -15,9 +15,9 @@ import retrofit2.Response
 //! Lógica de negocio, donde se hacen las peticiones a los servicios
 class DetailViewModel(private val context: Application) : ViewModel() {
 
-    fun getApod(apiKey: String, cb: ApodService.CallbackResponse<ApodResponse>) {
+    fun getApod(cb: ApodService.CallbackResponse<ApodResponse>) {
 
-        ApodService().apodApi.getApod(apiKey).enqueue(
+        ApodService().apodApi.getApod(Common.API_KEY_NASA_APOD).enqueue(
             object : Callback<ApodResponse> {
 
                 override fun onFailure(call: Call<ApodResponse>, t: Throwable) {
@@ -38,7 +38,7 @@ class DetailViewModel(private val context: Application) : ViewModel() {
             })
     }
 
-    fun insertApodToRoomDatabase(apodResponse: ApodResponse) {
+    fun insertApod(apodResponse: ApodResponse) {
         ApodRoomDatabase.getInstance(context).apodDao().insertApod(apodResponse)
     }
 

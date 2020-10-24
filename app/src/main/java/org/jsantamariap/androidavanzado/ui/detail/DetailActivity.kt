@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jsantamariap.androidavanzado.R
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
@@ -28,7 +29,6 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         viewModel.getApod(
-            Common.API_KEY_NASA_APOD,
             object : ApodService.CallbackResponse<ApodResponse> {
                 override fun onResponse(response: ApodResponse) {
 
@@ -46,6 +46,10 @@ class DetailActivity : AppCompatActivity() {
 
                     Glide.with(this@DetailActivity)
                         .load(response.url)
+                        .apply(
+                            RequestOptions()
+                                .placeholder(R.drawable.ic_launcher_background)
+                        )
                         .into(imageDetail)
 
                 }
@@ -56,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
         )
 
         saveButtonDetail.setOnClickListener {
-            viewModel.insertApodToRoomDatabase(mApodResponse!!)
+            viewModel.insertApod(mApodResponse!!)
         }
     }
 
