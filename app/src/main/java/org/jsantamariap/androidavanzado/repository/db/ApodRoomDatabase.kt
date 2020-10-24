@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
 
-@Database(entities = [ApodResponse::class], version = 0, exportSchema = false)
+@Database(entities = [ApodResponse::class], version = 1, exportSchema = false)
 abstract class ApodRoomDatabase: RoomDatabase() {
 
     abstract fun apodDao(): ApodDao
 
+    //! Mediante el getInstance equivale a un Singleton
     companion object {
 
         private var instance: ApodRoomDatabase? = null

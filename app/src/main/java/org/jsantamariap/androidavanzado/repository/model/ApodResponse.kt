@@ -5,9 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 import java.util.*
 
-@Parcelize
+//@Parcelize --> Se eliminó al integrarlo en @entity
 @Entity(tableName = "apod_table")
 data class ApodResponse(
 
@@ -37,4 +38,5 @@ data class ApodResponse(
 
     @field:SerializedName("url")
     val url: String? = null
-) : Parcelable
+) : Serializable
+// : Parcelable -> Se cambió al integrarlo en @entity

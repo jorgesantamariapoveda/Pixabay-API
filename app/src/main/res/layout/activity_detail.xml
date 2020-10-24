@@ -40,7 +40,7 @@
             android:text="@string/textoDePrueba" />
 
         <Button
-            android:id="@+id/buttonDetail"
+            android:id="@+id/saveButtonDetail"
             android:text="@string/save"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"

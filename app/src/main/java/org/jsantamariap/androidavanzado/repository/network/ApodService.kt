@@ -26,7 +26,7 @@ class ApodService {
 
         val retrofit = Retrofit.Builder()
             .client(client)
-            .baseUrl(Common.BASE_URL_GHIBLI)
+            .baseUrl(Common.BASE_URL_NASA_APOD)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

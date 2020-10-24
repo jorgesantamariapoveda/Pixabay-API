@@ -6,16 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jsantamariap.androidavanzado.R
+import org.jsantamariap.androidavanzado.repository.model.ApodResponse
 import org.jsantamariap.androidavanzado.ui.detail.DetailActivity
+import org.jsantamariap.androidavanzado.ui.detail.DetailViewModel
+import org.jsantamariap.androidavanzado.utils.CustomViewModelFactory
 
 class MainFragment : Fragment(), CallbackItemClick {
 
     //! static
     companion object {
+
         const val TAG = "MainFragment" // nos vendrá bien para poder referenciar al fragment
+
         fun newInstance(): MainFragment {
             return MainFragment()
         }
@@ -23,7 +31,11 @@ class MainFragment : Fragment(), CallbackItemClick {
 
     //! properties
     private var adapter: MainAdapter? = null
-    private var listItems: ArrayList<String> = ArrayList()
+
+    private val viewModel: MainFragmentViewModel by lazy {
+        val factory = CustomViewModelFactory(activity!!.application)
+        ViewModelProvider(this, factory).get(MainFragmentViewModel::class.java)
+    }
 
     //! lifecycle functions
     override fun onCreateView(
@@ -36,15 +48,23 @@ class MainFragment : Fragment(), CallbackItemClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listItems.add("")
-        listItems.add("")
-        listItems.add("")
-        adapter = MainAdapter(activity!!.applicationContext, this, listItems)
+        init()
+        getLocalAllApod()
+    }
 
+    private fun init() {
         recyclerViewMain.layoutManager = LinearLayoutManager(activity)
         recyclerViewMain.isNestedScrollingEnabled = false
         recyclerViewMain.setHasFixedSize(false)
-        recyclerViewMain.adapter = adapter
+    }
+
+    private fun getLocalAllApod() {
+        //Como se hace la petición a la base de datos no debe hacerse en el mainQueue
+        // para ello lo hace el liveData que lo hace en background
+        viewModel.getLocalAllApod().observe(viewLifecycleOwner, Observer {
+            adapter = MainAdapter(activity!!.applicationContext, this, it)
+            recyclerViewMain.adapter = adapter
+        })
     }
 
     //! Interface CallbackItemClick
