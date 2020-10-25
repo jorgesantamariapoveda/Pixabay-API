@@ -29,9 +29,9 @@
         <ImageView
             android:id="@+id/imageDetail"
             android:layout_width="match_parent"
-            android:layout_height="312dp"
+            android:layout_height="650dp"
             android:contentDescription="@null"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_launcher_background" />
 
         <RelativeLayout

@@ -13,4 +13,6 @@
     <string name="textoDePrueba">TEXTO DE PRUEBA</string>
     <string name="PracticaAndroidAvanzado">Práctica Android Avanzado</string>
     <string name="cancel">Cancel</string>
+    <string name="Delete">DELETE</string>
+    <string name="Save">SAVE</string>
 </resources>

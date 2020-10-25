@@ -11,14 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jsantamariap.androidavanzado.R
-import org.jsantamariap.androidavanzado.repository.model.ApodResponse
+import org.jsantamariap.androidavanzado.repository.model.ItemPixabay
 import org.jsantamariap.androidavanzado.ui.detail.DetailActivity
 import org.jsantamariap.androidavanzado.utils.Common
 import org.jsantamariap.androidavanzado.utils.CustomViewModelFactory
 
 class MainFragment : Fragment(), CallbackItemClick {
 
-    //! static
+    // MARK: - statics
+
     companion object {
 
         //const val TAG = "MainFragment" // nos vendrá bien para poder referenciar al fragment
@@ -28,7 +29,8 @@ class MainFragment : Fragment(), CallbackItemClick {
         }
     }
 
-    //! properties
+    // MARK: - Properties
+
     private var adapter: MainAdapter? = null
 
     private val viewModel: MainFragmentViewModel by lazy {
@@ -36,7 +38,8 @@ class MainFragment : Fragment(), CallbackItemClick {
         ViewModelProvider(this, factory).get(MainFragmentViewModel::class.java)
     }
 
-    //! lifecycle functions
+    // MARK: - Lifecycle functions
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +53,8 @@ class MainFragment : Fragment(), CallbackItemClick {
         getLocalAllApod()
     }
 
+    // MARK: - Private functions
+
     private fun init() {
         recyclerViewMain.layoutManager = LinearLayoutManager(activity)
         recyclerViewMain.isNestedScrollingEnabled = false
@@ -57,32 +62,31 @@ class MainFragment : Fragment(), CallbackItemClick {
     }
 
     private fun getLocalAllApod() {
-        //Como se hace la petición a la base de datos no debe hacerse en el mainQueue
-        // para ello lo hace el liveData que lo hace en background
-        viewModel.getLocalAllApod().observe(viewLifecycleOwner, Observer { items ->
+        //! Como se hace la petición a la base de datos no debe hacerse en el mainQueue
+        //liveData se encarga de ello y lo hace en background
+        viewModel.getAllItemsPixabay().observe(viewLifecycleOwner, Observer { items ->
             adapter = MainAdapter(activity!!.applicationContext, this, items)
             recyclerViewMain.adapter = adapter
         })
     }
 
-    //! Interface CallbackItemClick
-    override fun onItemClick(apodResponse: ApodResponse) {
+    // MARK: - Interface CallbackItemClick
+
+    override fun onItemClickPixabay(itemPixabay: ItemPixabay) {
         //! Llamar a una activity desde un fragment
         this.activity?.let { fragment ->
             Intent(fragment, DetailActivity::class.java).apply {
 
                 //! Forma 1 porque es serializable
                 arguments = Bundle().apply {
-                    putSerializable(Common.KEY_APOD, apodResponse)
+                    putSerializable(Common.EXTRA_ITEM_PIXABAY, itemPixabay)
                     putExtras(this)
                 }
 
                 //! Forma 2, sino fuese serializable
                 // putExtra(Common.KEY_APOD, apodResponse.id)
 
-                //! Marca para saber si hay que leer la bd local o hacer
-                //petición API server
-                putExtra(Common.ORIGEN_APOD, Common.ORIGIN_APOD_LOCAL)
+                putExtra(Common.ORIGEN_PIXABAY, Common.ORIGIN_PIXABAY_LOCAL)
 
                 startActivity(this)
             }

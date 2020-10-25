@@ -7,14 +7,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class ApodService {
+class PixabayService {
 
     interface CallbackResponse<T> {
         fun onResponse(response: T)
         fun onFailure(t: Throwable, response: Response<*>? = null)
     }
 
-    val apodApi: ApodApi
+    val pixabayApi: PixabayApi
 
     init {
         val timeout: Long = 6 * 1000
@@ -30,8 +30,6 @@ class ApodService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        //.baseUrl(Common.BASE_URL_NASA_APOD)
-
-        apodApi = retrofit.create(ApodApi::class.java)
+        pixabayApi = retrofit.create(PixabayApi::class.java)
     }
 }

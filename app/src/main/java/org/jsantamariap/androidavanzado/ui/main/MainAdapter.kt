@@ -9,18 +9,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_list.view.*
 import org.jsantamariap.androidavanzado.R
-import org.jsantamariap.androidavanzado.repository.model.ApodResponse
+import org.jsantamariap.androidavanzado.repository.model.ItemPixabay
 
 class MainAdapter(
     private val context: Context,
     private val cbItemClick: CallbackItemClick,
-    private val listItems: List<ApodResponse>
+    private val listItems: List<ItemPixabay>
 ) : RecyclerView.Adapter<MainAdapter.MainHolder>() {
 
-    //! Representa la vista de cada item
+    // MARK: - Item de la vista
+
     class MainHolder(v: View) : RecyclerView.ViewHolder(v) {
         internal val view = v
     }
+
+    // MARK: - Lifecycle functions
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -35,7 +38,7 @@ class MainAdapter(
         listItems[position].let { item ->
 
             Glide.with(context)
-                .load(item.url)
+                .load(item.largeImageURL)
                 .apply(
                     RequestOptions()
                         .placeholder(R.drawable.ic_launcher_background)
@@ -43,7 +46,7 @@ class MainAdapter(
                 .into(holder.view.imageViewItemList)
 
             holder.view.cardViewItemList.setOnClickListener {
-                cbItemClick.onItemClick(item)
+                cbItemClick.onItemClickPixabay(item)
             }
         }
     }

@@ -10,7 +10,8 @@ import org.jsantamariap.androidavanzado.utils.Common
 
 class MainActivity : AppCompatActivity() {
 
-    //! lifecycle functions
+    // MARK: - Lifecycle functions
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,18 +22,15 @@ class MainActivity : AppCompatActivity() {
                 .commit()
 
         floatingActionButton.setOnClickListener {
-            //! Forma vista hasta ahora para llamar a una activity desde otra activity
-            /*
-            val intent2 = Intent(this, DetailActivity::class.java)
-            startActivity(intent2)
-            intent2.putExtra("KEY", "value")
-             */
+//            Forma vista hasta ahora para llamar a una activity desde otra activity
+//            val intent2 = Intent(this, DetailActivity::class.java)
+//            startActivity(intent2)
+//            intent2.putExtra("KEY", "value")
 
-            //! Forma vista en avanzada, queda más limpio, además de poder hacer más cosas
+//            Forma vista en avanzada, queda más limpio, además de poder hacer más cosas
             Intent(this, DetailActivity::class.java).apply {
-                putExtra(Common.ORIGEN_APOD, Common.ORIGIN_APOD_SERVER)
+                putExtra(Common.ORIGEN_PIXABAY, Common.ORIGIN_PIXABAY_SERVER)
                 startActivity(this)
-                //putExtra("KEY", "value")
             }
         }
 

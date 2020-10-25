@@ -1,14 +1,21 @@
 package org.jsantamariap.androidavanzado.repository.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
+import java.util.*
+
+//Aquí está integramente la respuesta de la API, pero únicamente me interesa almacenar en la base
+//de datos una parte (aquella que le he puesto la etiqueta Entity)
 
 @Parcelize
 data class PixabayResponse(
 
 	@field:SerializedName("hits")
-	val hits: List<HitsItem?>? = null,
+	val hits: List<ItemPixabay?>? = null,
 
 	@field:SerializedName("total")
 	val total: Int? = null,
@@ -17,8 +24,14 @@ data class PixabayResponse(
 	val totalHits: Int? = null
 ) : Parcelable
 
-@Parcelize
-data class HitsItem(
+@Entity(tableName = "pixabay_table")
+data class ItemPixabay(
+
+	@PrimaryKey
+	var idPrimaryKey: String = UUID.randomUUID().toString(),
+
+	@field:SerializedName("id")
+	val id: Int? = null,
 
 	@field:SerializedName("webformatHeight")
 	val webformatHeight: Int? = null,
@@ -68,9 +81,6 @@ data class HitsItem(
 	@field:SerializedName("pageURL")
 	val pageURL: String? = null,
 
-	@field:SerializedName("id")
-	val id: Int? = null,
-
 	@field:SerializedName("imageSize")
 	val imageSize: Int? = null,
 
@@ -85,4 +95,4 @@ data class HitsItem(
 
 	@field:SerializedName("likes")
 	val likes: Int? = null
-) : Parcelable
+) : Serializable
