@@ -1,6 +1,8 @@
 package org.jsantamariap.androidavanzado.ui.detail
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -8,10 +10,13 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jsantamariap.androidavanzado.R
 import org.jsantamariap.androidavanzado.repository.model.ApodResponse
+import org.jsantamariap.androidavanzado.repository.model.HitsItem
+import org.jsantamariap.androidavanzado.repository.model.PixabayResponse
 import org.jsantamariap.androidavanzado.repository.network.ApodService
 import org.jsantamariap.androidavanzado.utils.Common
 import org.jsantamariap.androidavanzado.utils.CustomViewModelFactory
 import retrofit2.Response
+import kotlin.random.Random
 
 class DetailActivity : AppCompatActivity() {
 
@@ -21,6 +26,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private var apodResponse: ApodResponse? = null
+    private var pixabayResponse: PixabayResponse? = null
     private var isLocalPod = true
 
     //! lifecycle functions
@@ -35,9 +41,12 @@ class DetailActivity : AppCompatActivity() {
 
     private fun init() {
 
+        //#pragma Si me da tiempo hacer editable la categoria para que la pueda escoger el usuario
+        toolbar.subtitle = Common.CATEGORY_PIXABAY
+
         intent?.let {
             if (it.getStringExtra(Common.ORIGEN_APOD) == Common.ORIGIN_APOD_LOCAL) {
-                btnDetail.text = "DELETE"
+                btnActionDetail.text = "DELETE"
                 isLocalPod = true
 
                 apodResponse = intent.extras!!.getSerializable(Common.KEY_APOD) as ApodResponse?
@@ -46,12 +55,44 @@ class DetailActivity : AppCompatActivity() {
                 }
 
             } else {
-                btnDetail.text = "SAVE"
+                btnActionDetail.text = "SAVE"
                 isLocalPod = false
 
-                getDataFromServer()
+                getPixabayFromServer()
             }
-        } ?: print("hola")
+        } ?: getDataFromServer()
+    }
+
+    private fun getPixabayFromServer() {
+        viewModel.getServerPixabay(object : ApodService.CallbackResponse<PixabayResponse> {
+            override fun onResponse(response: PixabayResponse) {
+                pixabayResponse = response
+                setPixabayToView(response)
+            }
+
+            override fun onFailure(t: Throwable, response: Response<*>?) {
+               //textDetail.text = response.toString()
+            }
+        })
+    }
+
+    private fun setPixabayToView(data: PixabayResponse) {
+
+        //textDetail.text = data.total.toString()
+
+        if (data.hits!!.isNotEmpty()) {
+            val random = Random.Default
+            val valor = random.nextInt(0, data.hits.size - 1)
+            val hit: HitsItem? = data.hits[valor]
+
+            Glide.with(this@DetailActivity)
+                .load(hit!!.largeImageURL)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.ic_launcher_background)
+                )
+                .into(imageDetail)
+        }
     }
 
     private fun getDataFromServer() {
@@ -62,13 +103,13 @@ class DetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(t: Throwable, response: Response<*>?) {
-                textDetail.text = response.toString()
+                print(response.toString())
             }
         })
     }
 
     private fun setDataToView(data: ApodResponse) {
-        textDetail.text = data.explanation
+        //textDetail.text = data.explanation
 
         Glide.with(this@DetailActivity)
             .load(data.url)
@@ -80,14 +121,17 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun listeners() {
-        btnDetail.setOnClickListener {
 
+        btnActionDetail.setOnClickListener {
             if (isLocalPod) {
                 viewModel.deleteApod(apodResponse!!)
             } else {
                 viewModel.insertApod(apodResponse!!)
             }
+            finish()
+        }
 
+        btnCancelDetail.setOnClickListener {
             finish()
         }
     }

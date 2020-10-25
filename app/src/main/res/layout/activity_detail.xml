@@ -13,8 +13,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="Título"
-            app:subtitle="Subtítulo"
+            app:title="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -35,19 +34,29 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background" />
 
-        <TextView
-            android:id="@+id/textDetail"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/textoDePrueba" />
+            android:paddingHorizontal="10dp"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:text="@string/save" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelDetail"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_toStartOf="@id/btnActionDetail"
+                android:text="@string/cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnActionDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/save" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

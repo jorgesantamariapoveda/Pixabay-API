@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">API Ghibli</string>
+    <string name="app_name">Pixabay API</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -12,4 +12,5 @@
     <string name="save">Save</string>
     <string name="textoDePrueba">TEXTO DE PRUEBA</string>
     <string name="PracticaAndroidAvanzado">Práctica Android Avanzado</string>
+    <string name="cancel">Cancel</string>
 </resources>
