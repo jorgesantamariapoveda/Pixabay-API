@@ -15,4 +15,5 @@
     <string name="cancel">Cancel</string>
     <string name="Delete">DELETE</string>
     <string name="Save">SAVE</string>
+    <string name="reintent">Reintent</string>
 </resources>

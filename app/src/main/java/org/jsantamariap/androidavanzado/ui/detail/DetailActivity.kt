@@ -1,6 +1,8 @@
 package org.jsantamariap.androidavanzado.ui.detail
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -47,6 +49,7 @@ class DetailActivity : AppCompatActivity() {
         intent?.let {
             if (it.getStringExtra(Common.ORIGEN_PIXABAY) == Common.ORIGIN_PIXABAY_LOCAL) {
                 btnActionDetail.text = getString(R.string.Delete)
+                btnReintentDetail.visibility = View.INVISIBLE
                 isLocalPod = true
 
                 itemPixabay = intent.extras!!.getSerializable(Common.EXTRA_ITEM_PIXABAY) as ItemPixabay?
@@ -55,6 +58,7 @@ class DetailActivity : AppCompatActivity() {
 
             } else {
                 btnActionDetail.text = getString(R.string.Save)
+                btnReintentDetail.visibility = View.VISIBLE
                 isLocalPod = false
 
                 getPixabayFromServer()
@@ -108,5 +112,11 @@ class DetailActivity : AppCompatActivity() {
         btnCancelDetail.setOnClickListener {
             finish()
         }
+
+        btnReintentDetail.setOnClickListener {
+            getPixabayFromServer()
+        }
+
+
     }
 }

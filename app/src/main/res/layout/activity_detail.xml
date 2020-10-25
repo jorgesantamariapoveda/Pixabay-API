@@ -45,8 +45,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_toStartOf="@id/btnActionDetail"
+                android:layout_toStartOf="@id/btnReintentDetail"
                 android:text="@string/cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReintentDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_toStartOf="@id/btnActionDetail"
+                android:text="@string/reintent" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnActionDetail"
