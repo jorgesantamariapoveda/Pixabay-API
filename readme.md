@@ -5,18 +5,17 @@ El objetivo de esta práctica es implementar una aplicación móvil Android que 
 ## Tecnologías
 
 - Kotlin
-- Retrofit library
-- Gson
-- Glide
-- Arquitectura MVVM
-- ViewModel
-- LiveData
+- Retrofit library, Gson, Glide
+- Arquitectura MVVM, ViewModel, LiveData
 - Room Database
 - Material design
 - Android Studio
 
 ## Servicio elegido
 
-- _Por definir_
+- Pixabay API (requiere registro para obtener una key).
 
 ##### Capturas de pantallas
+
+![main](./screens/main.png "Main")
+![detail](./screens/detail.png "Detail")
