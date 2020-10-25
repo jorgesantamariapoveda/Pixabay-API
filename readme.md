@@ -15,7 +15,7 @@ El objetivo de esta práctica es implementar una aplicación móvil Android que 
 
 - Pixabay API (requiere registro para obtener una key).
 
-### Capturas de pantallas
+##### Capturas de pantallas
 
 ![main](./screens/main.png "Main")
 ![detail](./screens/detail.png "Detail")
