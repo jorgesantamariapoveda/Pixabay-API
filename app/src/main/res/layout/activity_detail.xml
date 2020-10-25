@@ -13,6 +13,8 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            app:title="Título"
+            app:subtitle="Subtítulo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -41,9 +43,10 @@
 
         <Button
             android:id="@+id/btnDetail"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_gravity="center"
             android:text="@string/save" />
     </LinearLayout>
 

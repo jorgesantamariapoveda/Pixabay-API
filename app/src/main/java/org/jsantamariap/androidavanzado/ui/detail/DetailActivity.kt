@@ -26,20 +26,21 @@ class DetailActivity : AppCompatActivity() {
     //! lifecycle functions
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_detail)
+        setSupportActionBar(findViewById(R.id.toolbar))
+
         init()
         listeners()
     }
 
     private fun init() {
-        setContentView(R.layout.activity_detail)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
         intent?.let {
             if (it.getStringExtra(Common.ORIGEN_APOD) == Common.ORIGIN_APOD_LOCAL) {
                 btnDetail.text = "DELETE"
                 isLocalPod = true
-                apodResponse = intent.extras!!.getSerializable(Common.KEY_APOD) as ApodResponse?
 
+                apodResponse = intent.extras!!.getSerializable(Common.KEY_APOD) as ApodResponse?
                 apodResponse?.let { response ->
                     setDataToView(response)
                 }
@@ -47,25 +48,23 @@ class DetailActivity : AppCompatActivity() {
             } else {
                 btnDetail.text = "SAVE"
                 isLocalPod = false
+
                 getDataFromServer()
             }
-        }
+        } ?: print("hola")
     }
 
     private fun getDataFromServer() {
-        viewModel.getServerApod(
-            object : ApodService.CallbackResponse<ApodResponse> {
-
-                override fun onResponse(response: ApodResponse) {
-                    apodResponse = response
-                    setDataToView(response)
-                }
-
-                override fun onFailure(t: Throwable, response: Response<*>?) {
-                    textDetail.text = response.toString()
-                }
+        viewModel.getServerApod(object : ApodService.CallbackResponse<ApodResponse> {
+            override fun onResponse(response: ApodResponse) {
+                apodResponse = response
+                setDataToView(response)
             }
-        )
+
+            override fun onFailure(t: Throwable, response: Response<*>?) {
+                textDetail.text = response.toString()
+            }
+        })
     }
 
     private fun setDataToView(data: ApodResponse) {

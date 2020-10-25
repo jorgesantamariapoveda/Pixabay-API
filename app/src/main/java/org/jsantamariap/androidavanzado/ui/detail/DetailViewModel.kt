@@ -15,8 +15,8 @@ class DetailViewModel(private val context: Application) : ViewModel() {
 
     fun getServerApod(cb: ApodService.CallbackResponse<ApodResponse>) {
 
-        ApodService().apodApi.getApod(Common.API_KEY_NASA_APOD).enqueue(
-            object : Callback<ApodResponse> {
+        ApodService().apodApi.getApod(Common.API_KEY_NASA_APOD)
+            .enqueue(object : Callback<ApodResponse> {
 
                 override fun onFailure(call: Call<ApodResponse>, t: Throwable) {
                     cb.onFailure(t)
@@ -44,7 +44,7 @@ class DetailViewModel(private val context: Application) : ViewModel() {
         ApodRoomDatabase.getInstance(context).apodDao().deleteApod(apodResponse)
     }
 
-    fun getLocalApod(apodId: String) : ApodResponse {
+    fun getLocalApod(apodId: String): ApodResponse {
         return ApodRoomDatabase.getInstance(context).apodDao().getApod(apodId)
     }
 
